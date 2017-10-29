@@ -1,0 +1,12 @@
+services:
+- docker
+script:
+- docker build -t wtanaka/xenial-oraclejdk9-zookeeper-py2 .
+- docker run wtanaka/xenial-oraclejdk9-zookeeper-py2 bash -c "which /usr/lib/zookeeper/bin/cli_mt"
+- docker run wtanaka/xenial-oraclejdk9-zookeeper-py2 python -V
+after_success:
+- >
+  curl -H "Content-Type: application/json"
+  --data '{"source_type": "Branch", "source_name": "master"}'
+  -X POST
+  https://registry.hub.docker.com/u/wtanaka/xenial-oraclejdk9-zookeeper-py2/trigger/825fc9c4-68e7-43a9-982b-9086b2535e86/
